@@ -40,8 +40,7 @@ public class Case03 {
 		//トップページにアクセス
 		goTo("http://localhost:8080/lms");
 		//タイトル一致確認
-		String title = webDriver.getTitle();
-		assertEquals("ログイン | LMS", title);
+		assertEquals("ログイン | LMS", webDriver.getTitle());
 		//エビデンス取得
 		getEvidence(new Object() {
 		});
@@ -57,8 +56,7 @@ public class Case03 {
 		webDriver.findElement(By.className("btn")).click();
 
 		//遷移後、コース詳細画面のタイトル一致確認
-		String title = webDriver.getTitle();
-		assertEquals("コース詳細 | LMS", title);
+		assertEquals("コース詳細 | LMS", webDriver.getTitle());
 
 		//エビデンス取得
 		getEvidence(new Object() {
