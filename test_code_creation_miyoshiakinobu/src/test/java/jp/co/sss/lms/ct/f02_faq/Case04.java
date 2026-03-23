@@ -67,14 +67,35 @@ public class Case04 {
 	@Order(3)
 	@DisplayName("テスト03 上部メニューの「ヘルプ」リンクからヘルプ画面に遷移")
 	void test03() {
-		// TODO ここに追加
+		//上部メニュー「機能」をクリック
+		webDriver.findElement(By.className("dropdown")).click();
+		//プルダウンリストから「ヘルプ」をクリック
+		webDriver.findElement(By.linkText("ヘルプ")).click();
+		//遷移後、ヘルプ画面のタイトル一致確認
+		assertEquals("ヘルプ | LMS", webDriver.getTitle());
+
+		//エビデンス取得
+		getEvidence(new Object() {
+		});
 	}
 
 	@Test
 	@Order(4)
 	@DisplayName("テスト04 「よくある質問」リンクからよくある質問画面を別タブに開く")
 	void test04() {
-		// TODO ここに追加
+		//「よくある質問」をクリック
+		webDriver.findElement(By.linkText("よくある質問")).click();
+
+		//タブの切り替え
+		Object[] windowHandle = webDriver.getWindowHandles().toArray();
+		webDriver.switchTo().window((String) windowHandle[1]);
+		//開かれた別タブでタイトル一致確認
+		assertEquals("よくある質問 | LMS", webDriver.getTitle());
+
+		//エビデンス取得
+		getEvidence(new Object() {
+		});
+
 	}
 
 }
