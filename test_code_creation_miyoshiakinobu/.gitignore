@@ -46,3 +46,5 @@ replay_pid*
 .springBeans
 spring-*/src/main/java/META-INF/MANIFEST.MF
 /.gitignore
+
+.~lock.*
