@@ -1,6 +1,7 @@
 package jp.co.sss.lms.ct.f02_faq;
 
 import static jp.co.sss.lms.ct.util.WebDriverUtils.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -9,6 +10,8 @@ import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 /**
  * 結合テスト よくある質問機能
@@ -35,42 +38,103 @@ public class Case06 {
 	@Order(1)
 	@DisplayName("テスト01 トップページURLでアクセス")
 	void test01() {
-		// TODO ここに追加
+		//トップページにアクセス
+		goTo("http://localhost:8080/lms");
+		//タイトル一致確認
+		assertEquals("ログイン | LMS", webDriver.getTitle());
+		//エビデンス取得
+		getEvidence(new Object() {
+		});
 	}
 
 	@Test
 	@Order(2)
 	@DisplayName("テスト02 初回ログイン済みの受講生ユーザーでログイン")
 	void test02() {
-		// TODO ここに追加
+		//初回ログイン済の受講生ユーザでログイン
+		webDriver.findElement(By.id("loginId")).sendKeys("StudentAA02");
+		webDriver.findElement(By.id("password")).sendKeys("StudentAA02");
+		webDriver.findElement(By.className("btn")).click();
+
+		//遷移後、コース詳細画面のタイトル一致確認
+		assertEquals("コース詳細 | LMS", webDriver.getTitle());
+
+		//エビデンス取得
+		getEvidence(new Object() {
+		});
 	}
 
 	@Test
 	@Order(3)
 	@DisplayName("テスト03 上部メニューの「ヘルプ」リンクからヘルプ画面に遷移")
 	void test03() {
-		// TODO ここに追加
+		//上部メニュー「機能」をクリック
+		webDriver.findElement(By.className("dropdown")).click();
+		//プルダウンリストから「ヘルプ」をクリック
+		webDriver.findElement(By.linkText("ヘルプ")).click();
+		//遷移後、ヘルプ画面のタイトル一致確認
+		assertEquals("ヘルプ | LMS", webDriver.getTitle());
+
+		//エビデンス取得
+		getEvidence(new Object() {
+		});
 	}
 
 	@Test
 	@Order(4)
 	@DisplayName("テスト04 「よくある質問」リンクからよくある質問画面を別タブに開く")
 	void test04() {
-		// TODO ここに追加
+		//「よくある質問」をクリック
+		webDriver.findElement(By.linkText("よくある質問")).click();
+
+		//タブの切り替え
+		Object[] windowHandle = webDriver.getWindowHandles().toArray();
+		webDriver.switchTo().window((String) windowHandle[1]);
+		//開かれた別タブでタイトル一致確認
+		assertEquals("よくある質問 | LMS", webDriver.getTitle());
+
+		//エビデンス取得
+		getEvidence(new Object() {
+		});
 	}
 
 	@Test
 	@Order(5)
 	@DisplayName("テスト05 カテゴリ検索で該当カテゴリの検索結果だけ表示")
 	void test05() {
-		// TODO ここに追加
+		//カテゴリ検索「研修関係」をクリック
+		webDriver.findElement(By.linkText("【研修関係】")).click();
+
+		//検索結果の表示確認
+		//検索結果件数　期待値：2件
+		assertEquals(2, webDriver.findElements(By.id("question-h[${status.index}]")).size());
+		//検索結果テキストを期待値と比較
+		Object[] resultText = webDriver.findElements(By.xpath("//*[@id=\"question-h[${status.index}]\"]/dt/span[2]"))
+				.toArray();
+		assertEquals("キャンセル料・途中退校について", ((WebElement) resultText[0]).getText());
+		assertEquals("研修の申し込みはどのようにすれば良いですか？", ((WebElement) resultText[1]).getText());
+		//エビデンス取得のためスクロール
+		scrollTo("350");
+		//エビデンス取得
+		getEvidence(new Object() {
+		});
 	}
 
 	@Test
 	@Order(6)
 	@DisplayName("テスト06 検索結果の質問をクリックしその回答を表示")
 	void test06() {
-		// TODO ここに追加
+		//検索結果一つ目をクリック
+		webDriver.findElement(By.id("question-h[${status.index}]")).click();
+		//展開された際に付与されるclass要素で表示確認
+		assertTrue(webDriver.findElement(By.className("fs18")).isDisplayed());
+		//回答テキスト完全一致確認
+		assertEquals("受講者の退職や解雇等、やむを得ない事情による途中終了に関してなど、事情をお伺いした上で、協議という形を取らせて頂きます。 弊社営業担当までご相談下さい。",
+				webDriver.findElement(By.xpath("//*[@id=\"answer-h[${status.index}]\"]/span[2]")).getText());
+
+		//エビデンス取得
+		getEvidence(new Object() {
+		});
 	}
 
 }
