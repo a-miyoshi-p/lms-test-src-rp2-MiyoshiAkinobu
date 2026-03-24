@@ -72,8 +72,13 @@ public class Case07 {
 				.click();
 		//タイトル一致確認
 		assertEquals("セクション詳細 | LMS", webDriver.getTitle());
-		//セクション詳細画面遷移し、押下したコースであることを日付で確認
-		assertEquals("2022年10月1日", webDriver.findElement(By.tagName("small")).getText());
+		//セクション詳細画面遷移し、押下したコースであることをセクション、日付で確認
+		//		assertEquals("2022年10月1日", webDriver.findElement(By.tagName("small")).getText());
+		assertEquals("ハードウェア、ソフトウェア、WWW 2022年10月1日",
+				webDriver.findElement(By.cssSelector("#sectionDetail h2")).getText());
+		//エビデンス取得
+		getEvidence(new Object() {
+		});
 	}
 
 	@Test
@@ -81,12 +86,14 @@ public class Case07 {
 	@DisplayName("テスト04 「提出する」ボタンを押下しレポート登録画面に遷移")
 	void test04() {
 		//「日報【デモ】を提出する」ボタンを押下
-		webDriver.findElement(By.xpath("//input[@value='日報【デモ】を提出する']")).click();
+		webDriver.findElement(By.xpath("//*[@id=\"sectionDetail\"]/table/tbody/tr[2]/td/form/input[6]")).click();
 		//タイトル一致確認
 		assertEquals("レポート登録 | LMS", webDriver.getTitle());
 		//対象のレポート登録画面であることを日付で確認
-		assertEquals("2022年10月1日", webDriver.findElement(By.tagName("small")).getText());
-
+		assertEquals("日報【デモ】 2022年10月1日", webDriver.findElement(By.cssSelector("#main h2")).getText());
+		//エビデンス取得
+		getEvidence(new Object() {
+		});
 	}
 
 	@Test
@@ -94,7 +101,15 @@ public class Case07 {
 	@DisplayName("テスト05 報告内容を入力して「提出する」ボタンを押下し確認ボタン名が更新される")
 	void test05() {
 		//レポート登録画面でテキストエリアに入力
+		webDriver.findElement(By.id("content_0")).clear();
+		webDriver.findElement(By.id("content_0")).sendKeys("テスト入力");
 		//提出するボタンを押下
+		webDriver.findElement(By.className("btn-primary")).click();
+		//セクション詳細画面遷移後、レポート内ボタンのvalueが「提出済み日報【デモ】を確認する」になっているか確認
+		assertTrue(webDriver.findElement(By.xpath("//input[@value='提出済み日報【デモ】を確認する']")).isDisplayed());
+		//エビデンス取得
+		getEvidence(new Object() {
+		});
 	}
 
 }
