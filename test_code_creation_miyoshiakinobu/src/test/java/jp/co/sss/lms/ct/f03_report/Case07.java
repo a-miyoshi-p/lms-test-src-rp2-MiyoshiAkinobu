@@ -79,6 +79,19 @@ public class Case07 {
 		//エビデンス取得
 		getEvidence(new Object() {
 		});
+		//		//参考提出有無の可変対応
+		//		//同時にセクション情報を変数に格納
+		//		String sectionTitle = webDriver.findElement(By.xpath("(//tr[td[contains(., '未提出')]])[1]/td[1]")).getText();
+		//		String sectionDate = webDriver.findElement(By.xpath("(//tr[td[contains(., '未提出')]])[1]/td[2]")).getText();
+		//		String sectionInfo = sectionTitle + sectionDate;
+		//		//未提出の行の詳細ボタンをクリック
+		//		webDriver.findElement(By.xpath("(//tr[td[contains(., '未提出')]])[1]/td[5]//form//input[3]"))
+		//				.click();
+		//		//タイトル一致確認
+		//		assertEquals("セクション詳細 | LMS", webDriver.getTitle());
+		//		//セクション名一致確認
+		//		assertEquals(sectionInfo,
+		//				webDriver.findElement(By.cssSelector("#sectionDetail h2")).getText());
 	}
 
 	@Test
@@ -86,7 +99,7 @@ public class Case07 {
 	@DisplayName("テスト04 「提出する」ボタンを押下しレポート登録画面に遷移")
 	void test04() {
 		//「日報【デモ】を提出する」ボタンを押下
-		webDriver.findElement(By.xpath("//*[@id=\"sectionDetail\"]/table/tbody/tr[2]/td/form/input[6]")).click();
+		webDriver.findElement(By.xpath("//input[@value='日報【デモ】を提出する']")).click();
 		//タイトル一致確認
 		assertEquals("レポート登録 | LMS", webDriver.getTitle());
 		//対象のレポート登録画面であることを日付で確認
